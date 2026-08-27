@@ -50,6 +50,31 @@ class BuyerRepositoryTest(TestCase):
         self.assertNotEqual(updated_user.name,"daniel")
 
 
+    def test_that_buyer_can_be_deleted(self):
+        buyer = Buyer(name="daniel", email="gggghre@gmail.com", password="1234")
+        self.repository.save(buyer)
+        self.repository.delete_by_id(buyer.id)
+        buyer=self.repository.find_by_id(buyer.id)
+        self.assertIsNone(buyer)
+
+
+    def test_that_all_buyers_can_be_found(self):
+        buyer = Buyer(name="daniel", email="gggghre@gmail.com", password="1234")
+        buyer2= Buyer(name="isreal", email="ggg@gmail.com", password="1234")
+        buyer3 = Buyer(name="obi", email="gghre@gmail.com", password="1234")
+
+        self.repository.save(buyer)
+        self.repository.save(buyer2)
+        self.repository.save(buyer3)
+
+        saved_users= self.repository.find_all()
+
+        self.assertIsInstance(saved_users,dict)
+
+
+
+
+
 
 
 
