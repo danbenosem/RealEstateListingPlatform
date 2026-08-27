@@ -8,6 +8,9 @@ from database import Base
 from models.property import Property
 from repositories.in_memory_buyer_repository import InMemoryBuyerRepository
 
+engine = create_engine("sqlite:///:memory:")
+TestingSessionLocal = sessionmaker(bind=engine)
+
 class BuyerRepositoryTest(TestCase):
 
     @classmethod
@@ -19,11 +22,13 @@ class BuyerRepositoryTest(TestCase):
         cls.Session= sessionmaker(bind=cls.engine)
 
     def setUp(self):
-        self.session= self.Session()
-        self.repository = InMemoryBuyerRepository(self.session)
+        Base.metadata.create_all(bind=engine)
+
+        self.session = TestingSessionLocal()
+        self.repository = InMemoryBuyerRepository(session=self.session)
 
     def tearDown(self):
-        self.session.close()
+        Base.metadata.drop_all(bind=engine)
 
 
     def test_that_buyer_can_be_saved_repo(self):
