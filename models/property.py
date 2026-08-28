@@ -15,6 +15,9 @@ class Property(Base):
     owner_id = Column(Integer, ForeignKey("owners.id"), nullable=False)
     owner = relationship("Owner", back_populates="properties")
 
+    buyer_id = Column(Integer, ForeignKey("buyers.id"), nullable=True)
+    buyer = relationship("Buyer", back_populates="properties")
+
 
 class PropertyCreate(BaseModel):
     name: str

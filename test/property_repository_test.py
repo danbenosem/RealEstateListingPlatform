@@ -3,6 +3,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from database import Base
 from models.property import Property
+from models.buyer import Buyer
 from models.owner import Owner
 from repositories.property_repository import PropertyRepository
 

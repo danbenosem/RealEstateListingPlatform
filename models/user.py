@@ -19,4 +19,4 @@ class UserCreate(BaseModel):
     email:str
     password:str
     isLoggedIn:bool
-    password:str
+

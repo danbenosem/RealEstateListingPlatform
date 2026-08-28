@@ -11,21 +11,26 @@ from repositories.in_memory_buyer_repository import InMemoryBuyerRepository
 class BuyerRepositoryTest(TestCase):
 
     @classmethod
-    def setUpClass(cls):
-        cls.engine= create_engine('sqlite:///:memory:')
-
-        Base.metadata.create_all(cls.engine)
-
-        cls.Session= sessionmaker(bind=cls.engine)
+    # def setUpClass(cls):
+    #     cls.engine= create_engine('sqlite:///:memory:')
+    #
+    #     Base.metadata.create_all(cls.engine)
+    #
+    #     cls.Session= sessionmaker(bind=cls.engine)
 
     def setUp(self):
-        self.session= self.Session()
+        self.engine = create_engine("sqlite:///:memory:")
+        Base.metadata.create_all(self.engine)
+        Session = sessionmaker(bind=self.engine)
+        self.session= Session()
         self.repository = InMemoryBuyerRepository(self.session)
 
     def tearDown(self):
+        # self.session.rollback()
         self.session.close()
 
-
+        Base.metadata.drop_all(self.engine)
+        Base.metadata.create_all(self.engine)
     def test_that_buyer_can_be_saved_repo(self):
         buyer=Buyer(name="daniel",email="gggghre@gmail.com",password="1234")
         self.repository.save(buyer)
