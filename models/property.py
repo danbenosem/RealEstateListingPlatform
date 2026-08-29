@@ -12,8 +12,11 @@ class Property(Base):
     description = Column(String, nullable=False)
     location = Column(String, nullable=False)
 
-    owner_id = Column(Integer, ForeignKey("owners.id"), nullable=False)
+    owner_id = Column(Integer, ForeignKey("owners.id"), nullable=True)
     owner = relationship("Owner", back_populates="properties")
+
+    buyer_id = Column(Integer, ForeignKey("buyers.id"), nullable=True)
+    buyer = relationship("Buyer", back_populates="properties")
 
 
 class PropertyCreate(BaseModel):
