@@ -10,13 +10,7 @@ from repositories.in_memory_buyer_repository import InMemoryBuyerRepository
 
 class BuyerRepositoryTest(TestCase):
 
-    @classmethod
-    # def setUpClass(cls):
-    #     cls.engine= create_engine('sqlite:///:memory:')
-    #
-    #     Base.metadata.create_all(cls.engine)
-    #
-    #     cls.Session= sessionmaker(bind=cls.engine)
+
 
     def setUp(self):
         self.engine = create_engine("sqlite:///:memory:")
@@ -26,7 +20,6 @@ class BuyerRepositoryTest(TestCase):
         self.repository = InMemoryBuyerRepository(self.session)
 
     def tearDown(self):
-        # self.session.rollback()
         self.session.close()
 
         Base.metadata.drop_all(self.engine)
