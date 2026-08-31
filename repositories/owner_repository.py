@@ -1,87 +1,81 @@
 
-from typing import List, Optional
+from typing import List
 
 from sqlalchemy.orm import Session
 
-from app import models, schemas
+
+from models.owner import Owner
+from models.property import PropertyCreate,Property
+
+
 
 
 class OwnerRepository:
     def __init__(self, db: Session):
         self.db = db
 
-    # ---------- Owner ----------
 
-    def create(self, owner_in: schemas.OwnerCreate) -> models.Owner:
-        owner = models.Owner(
-            name=owner_in.name,
-            email=owner_in.email,
-            password=owner_in.password,  # hashed by the service layer
-            is_logged_in=False,
-        )
-        self.db.add(owner)
-        self.db.commit()
-        self.db.refresh(owner)
-        return owner
 
-    def get_by_id(self, owner_id: int) -> Optional[models.Owner]:
+
+
+    def get_by_id(self, owner_id: int) :
         return (
-            self.db.query(models.Owner)
-            .filter(models.Owner.owner_id == owner_id)
+            self.db.query(Owner)
+            .filter(Owner.owner_id == owner_id)
             .first()
         )
 
-    def get_by_email(self, email: str) -> Optional[models.Owner]:
+    def get_by_email(self, email: str) :
         return (
-            self.db.query(models.Owner)
-            .filter(models.Owner.email == email)
+            self.db.query(Owner)
+            .filter(Owner.email == email)
             .first()
         )
 
-    def get_all(self, skip: int = 0, limit: int = 100) -> List[models.Owner]:
-        return self.db.query(models.Owner).offset(skip).limit(limit).all()
+    def get_all(self):
+        return self.db.query(Owner).all()
 
-    def delete(self, owner: models.Owner) -> None:
+    def delete(self, owner: Owner) -> None:
         self.db.delete(owner)
         self.db.commit()
 
-    # ---------- Property (AddProperty / removeProperty / updateProperty / viewProperties) ----------
+
 
     def add_property(
-        self, owner_id: int, property_in: schemas.PropertyCreate
-    ) -> models.Property:
-        prop = models.Property(**property_in.model_dump(), owner_id=owner_id)
+        self, owner_id: int, property_in: PropertyCreate
+    ) :
+        prop = Property(**property_in.model_dump(), owner_id=owner_id)
         self.db.add(prop)
         self.db.commit()
         self.db.refresh(prop)
         return prop
 
-    def get_property(self, owner_id: int, property_id: int) -> Optional[models.Property]:
+    def get_property(self, owner_id: int, property_id: int) :
         return (
-            self.db.query(models.Property)
+            self.db.query(Property)
             .filter(
-                models.Property.id == property_id,
-                models.Property.owner_id == owner_id,
+                Property.id == property_id,
+                Property.owner_id == owner_id,
             )
             .first()
         )
 
-    def view_properties(self, owner_id: int) -> List[models.Property]:
+    def view_properties(self, owner_id: int):
         return (
-            self.db.query(models.Property)
-            .filter(models.Property.owner_id == owner_id)
+            self.db.query(Property)
+            .filter(Property.owner_id == owner_id)
             .all()
         )
 
     def update_property(
-        self, prop: models.Property, property_in: schemas.PropertyUpdate
-    ) -> models.Property:
+        self, prop: Property, property_in: PropertyCreate
+    ) -> Property:
         for field, value in property_in.model_dump(exclude_unset=True).items():
             setattr(prop, field, value)
         self.db.commit()
         self.db.refresh(prop)
         return prop
 
-    def remove_property(self, prop: models.Property) -> None:
+    def remove_property(self, prop: Property) -> None:
         self.db.delete(prop)
         self.db.commit()
