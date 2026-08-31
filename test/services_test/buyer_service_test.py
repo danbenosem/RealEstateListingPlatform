@@ -26,6 +26,7 @@ class BuyerServiceTest(TestCase):
 
     def tearDown(self):
         self.session.close()
+        Base.metadata.drop_all(bind=engine)
 
 
     def test_that_buyer_can_find_property_by_price(self):
