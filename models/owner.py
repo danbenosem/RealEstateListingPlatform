@@ -16,3 +16,7 @@ class Owner(User):
 
 
     properties = relationship("Property", back_populates="owner")
+
+
+
+print("wwe")
