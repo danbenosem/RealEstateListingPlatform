@@ -1,5 +1,6 @@
 from models.buyer import Buyer
 from  repositories.buyer_repository import BuyerRepository
+from sqlalchemy.exc import IntegrityError
 
 
 class InMemoryBuyerRepository(BuyerRepository):
@@ -8,8 +9,12 @@ class InMemoryBuyerRepository(BuyerRepository):
         self.session = session
 
     def save(self, buyer: Buyer) -> None:
-        self.session.add(buyer)
-        self.session.commit()
+        try:
+            self.session.add(buyer)
+            self.session.commit()
+        except IntegrityError:
+            self.session.rollback()
+            raise
 
     def find_by_id(self, buyer_id: int) -> Buyer:
         return self.session.query(Buyer).filter(Buyer.id == buyer_id).first()
@@ -33,4 +38,8 @@ class InMemoryBuyerRepository(BuyerRepository):
         buyer.email= data["email"]
 
         self.session.add(buyer)
+
+    def find_by_email(self,buyer_email:str):
+        return self.session.query(Buyer).filter(Buyer.email==buyer_email).first()
+
 

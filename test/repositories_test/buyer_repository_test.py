@@ -10,22 +10,20 @@ from repositories.in_memory_buyer_repository import InMemoryBuyerRepository
 
 class BuyerRepositoryTest(TestCase):
 
-    @classmethod
-    def setUpClass(cls):
-        cls.engine= create_engine('sqlite:///:memory:')
 
-        Base.metadata.create_all(cls.engine)
-
-        cls.Session= sessionmaker(bind=cls.engine)
 
     def setUp(self):
-        self.session= self.Session()
+        self.engine = create_engine("sqlite:///:memory:")
+        Base.metadata.create_all(self.engine)
+        Session = sessionmaker(bind=self.engine)
+        self.session= Session()
         self.repository = InMemoryBuyerRepository(self.session)
 
     def tearDown(self):
         self.session.close()
 
-
+        Base.metadata.drop_all(self.engine)
+        Base.metadata.create_all(self.engine)
     def test_that_buyer_can_be_saved_repo(self):
         buyer=Buyer(name="daniel",email="gggghre@gmail.com",password="1234")
         self.repository.save(buyer)
@@ -71,6 +69,14 @@ class BuyerRepositoryTest(TestCase):
 
         self.assertIsInstance(saved_users,dict)
 
+
+    def test_that_buyer_can_be_found_by_email(self):
+        buyer = Buyer(name="daniel", email="g@gmail.com", password="1234")
+        self.repository.save(buyer)
+
+        saved_user= self.repository.find_by_email("g@gmail.com")
+
+        self.assertEqual(saved_user.name, buyer.name)
 
 
 
