@@ -4,6 +4,7 @@ from sqlalchemy import Column, Integer, String, ForeignKey
 from database import Base
 
 
+
 class Property(Base):
     __tablename__ = 'properties'
     id = Column(Integer, primary_key=True)
