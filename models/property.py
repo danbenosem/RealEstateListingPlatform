@@ -1,6 +1,6 @@
 from pydantic import BaseModel
-from sqlalchemy.orm import declarative_base,relationship
-from sqlalchemy import Column,Integer,String,ForeignKey
+from sqlalchemy.orm import relationship
+from sqlalchemy import Column, Integer, String, ForeignKey
 from database import Base
 
 
@@ -13,16 +13,11 @@ class Property(Base):
     description = Column(String, nullable=False)
     location = Column(String, nullable=False)
 
-    owner_id = Column(Integer, ForeignKey("owners.id"), nullable=False)
-    buyer_id = Column(Integer, ForeignKey("buyers.id"), nullable=True)
-
+    owner_id = Column(Integer, ForeignKey("owners.id"), nullable=True)
     owner = relationship("Owner", back_populates="properties")
+
+    buyer_id = Column(Integer, ForeignKey("buyers.id"), nullable=True)
     buyer = relationship("Buyer", back_populates="properties")
-
-
-
-
-
 
 
 class PropertyCreate(BaseModel):
@@ -30,6 +25,3 @@ class PropertyCreate(BaseModel):
     price: int
     location: str
     description: str
-
-
-    

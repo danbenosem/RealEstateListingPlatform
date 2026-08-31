@@ -10,3 +10,4 @@ class Owner(User):
 
     id = Column(Integer, ForeignKey('users.id'), primary_key=True)
     properties=relationship("Property", back_populates="owner")
+
