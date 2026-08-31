@@ -12,3 +12,7 @@ dependencies = [
     "sqlite3-orm>=1.0.0",
     "uvicorn[standard]>=0.52.4",
 ]
+
+#wwe   prin
+
+print("wwe")
