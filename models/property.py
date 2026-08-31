@@ -20,11 +20,6 @@ class Property(Base):
     buyer = relationship("Buyer", back_populates="properties")
 
 
-
-
-
-
-
 class PropertyCreate(BaseModel):
     name: str
     price: int
