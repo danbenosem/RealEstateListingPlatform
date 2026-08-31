@@ -14,5 +14,10 @@ class User(Base):
 
 
 
-
+class UserCreate(BaseModel):
+    name:str
+    email:str
+    password:str
+    isLoggedIn:bool
+    password:str
 
