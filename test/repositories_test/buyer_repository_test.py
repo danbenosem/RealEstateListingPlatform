@@ -70,6 +70,14 @@ class BuyerRepositoryTest(TestCase):
         self.assertIsInstance(saved_users,dict)
 
 
+    def test_that_buyer_can_be_found_by_email(self):
+        buyer = Buyer(name="daniel", email="g@gmail.com", password="1234")
+        self.repository.save(buyer)
+
+        saved_user= self.repository.find_by_email("g@gmail.com")
+
+        self.assertEqual(saved_user.name, buyer.name)
+
 
 
 
