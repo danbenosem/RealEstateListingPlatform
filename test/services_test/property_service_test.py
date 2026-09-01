@@ -82,5 +82,3 @@ class PropertyServiceTest(unittest.TestCase):
         self.assertEqual(len(results), 2)
 
 
-if __name__ == '__main__':
-    unittest.main()

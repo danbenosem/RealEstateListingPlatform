@@ -6,11 +6,15 @@ class RegisterResponse(BaseModel):
     message:str
 
 
-class LoginResponse(BaseModel):
+class LoginUserResponse(BaseModel):
     success:bool
     message:str
     buyer_id:int | None=None
 
+
+class LogoutUserResponse(BaseModel):
+    success:bool
+    message:str
 
 class BuyPropertyResponse(BaseModel):
     success: bool
