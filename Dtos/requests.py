@@ -1,21 +1,19 @@
 from pydantic import BaseModel
 
-class RegisterBuyerRequest(BaseModel):
+class RegisterUserRequest(BaseModel):
     name:str
     email:str
     password:str
 
 
 
-class RegisterOwnerRequest(BaseModel):
-    name:str
+class LoginUserRequest(BaseModel):
     email:str
     password:str
 
 
-class LoginBuyerRequest(BaseModel):
+class LogOutUserRequest(BaseModel):
     email:str
-    password:str
 
 
 class BuyPropertyRequest(BaseModel):
