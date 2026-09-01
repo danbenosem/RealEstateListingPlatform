@@ -1,7 +1,7 @@
 from fastapi import APIRouter,Depends
 
 from Dtos.requests import RegisterUserRequest,LoginUserRequest,LogOutUserRequest
-from services.authenticaton_service import AuthenticationService
+from services.authentication_service import AuthenticationService
 from dependencies import get_authentication_service
 
 

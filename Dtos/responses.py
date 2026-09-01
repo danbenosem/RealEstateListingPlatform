@@ -9,7 +9,7 @@ class RegisterResponse(BaseModel):
 class LoginUserResponse(BaseModel):
     success:bool
     message:str
-    buyer_id:int | None=None
+    user_id:int | None=None
 
 
 class LogoutUserResponse(BaseModel):
@@ -20,4 +20,23 @@ class BuyPropertyResponse(BaseModel):
     success: bool
     message: str
 
+
+class SellPropertyResponse(BaseModel):
+    success: bool
+    message: str
+
+
+class AddPropertyResponse(BaseModel):
+     success: bool
+     message: str
+
+
+class UpdatePropertyInformationResponse(BaseModel):
+    success: bool
+    message: str
+
+
+class RemovePropertyInformationResponse(BaseModel):
+    success: bool
+    message: str
 

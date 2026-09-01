@@ -5,8 +5,8 @@ from services.buyer_service import BuyerService
 from models.property import Property
 from models.owner import Owner
 from models.buyer import Buyer
-from Dtos.requests import RegisterBuyerRequest, BuyPropertyRequest
-from services.authenticaton_service import AuthenticationService
+from Dtos.requests import RegisterUserRequest, BuyPropertyRequest
+from services.authentication_service import AuthenticationService
 from repositories.in_memory_buyer_repository import InMemoryBuyerRepository
 
 

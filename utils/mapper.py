@@ -5,15 +5,17 @@ from Dtos.requests import RegisterUserRequest, LoginUserRequest, LogOutUserReque
 class UserMapper:
     @staticmethod
     def user_mapper(request:RegisterUserRequest):
-        return Buyer(name=request.name,email=request.email,password=request.password)
+        return User(name=request.name,email=request.email,password=request.password)
 
     @staticmethod
     def login_mapper(request:LoginUserRequest):
-        return Buyer(email=request.email,password=request.password)
+        return User(email=request.email,password=request.password)
 
     @staticmethod
     def logout_mapper(request:LogOutUserRequest):
-        return
+        return User(email=request.email)
+
+
 
 
 
