@@ -19,3 +19,22 @@ class LogOutUserRequest(BaseModel):
 class BuyPropertyRequest(BaseModel):
     price:int
     name:str
+
+class SellPropertyRequest(BaseModel):
+    price:int
+    description:str
+    location:str
+
+
+class AddPropertyRequest(BaseModel):
+    name:str
+    price:int
+    description:str
+    location:str
+
+
+class UpdatePropertyInformationRequest(BaseModel):
+    name:str
+    price:int
+    description:str
+    location:str

@@ -21,3 +21,17 @@ class BuyPropertyResponse(BaseModel):
     message: str
 
 
+class SellPropertyResponse(BaseModel):
+    success: bool
+    message: str
+
+
+class AddPropertyResponse(BaseModel):
+     success: bool
+     message: str
+
+
+class UpdatePropertyInformationResponse(BaseModel):
+    success: bool
+    message: str
+
