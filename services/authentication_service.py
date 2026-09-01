@@ -27,7 +27,7 @@ class AuthenticationService:
         if user.password != login_user.password:
             return LoginUserResponse(success=False, message="wrong password")
 
-        return LoginUserResponse(success=True, message="login successful", buyer_id=user.id)
+        return LoginUserResponse(success=True, message="login successful", user_id=user.id)
 
     def logout_user(self, request: LogOutUserRequest):
         user = self.repository.find_by_email(request.email)

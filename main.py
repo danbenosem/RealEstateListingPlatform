@@ -12,9 +12,12 @@ Base.metadata.create_all(engine)
 
 from controllers.authentication_controller import router as authentication_router
 from controllers.buyer_controller import router as buyer_router
+from controllers.owner_controller import router as owner_router
 
 
 app=FastAPI()
 
 app.include_router(authentication_router)
 app.include_router(buyer_router)
+app.include_router(owner_router)
+

@@ -38,3 +38,9 @@ class UpdatePropertyInformationRequest(BaseModel):
     price:int
     description:str
     location:str
+
+
+class RemovePropertyInformationRequest(BaseModel):
+    name:str
+    price:int
+    description:str
