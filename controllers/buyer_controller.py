@@ -19,3 +19,13 @@ def find_property_by_location(location: str, buyer_service: BuyerService = Depen
 @router.post("buyer/buy")
 def buy_property(buyer_id:int,request:BuyPropertyRequest,buyer_service:BuyerService=Depends(get_buyer_service)):
     return buyer_service.buy_property(buyer_id,request)
+
+
+
+
+@router.post("/buyers/{user_id}")
+def create_buyer(
+    user_id: int,
+    buyer_service: BuyerService = Depends(get_buyer_service)
+):
+    return buyer_service.create_buyer(user_id)

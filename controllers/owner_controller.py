@@ -3,6 +3,8 @@ from fastapi import APIRouter, Depends
 from Dtos.requests import AddPropertyRequest, UpdatePropertyInformationRequest
 from services.property_service import PropertyService
 from dependencies import get_property_service
+from services.owner_service import OwnerService
+from dependencies import get_owner_service
 
 router = APIRouter()
 
@@ -19,3 +21,12 @@ def update_property(owner_id: int, property_id: int, request: UpdatePropertyInfo
 @router.delete("/owners/{owner_id}/properties/{property_id}")
 def remove_property(owner_id: int, property_id: int, property_service: PropertyService = Depends(get_property_service)):
     return property_service.remove_property(property_id)
+
+
+
+@router.post("/owners/{user_id}")
+def create_owner(
+    user_id: int,
+    owner_service: OwnerService = Depends(get_owner_service)
+):
+    return owner_service.create_owner(user_id)

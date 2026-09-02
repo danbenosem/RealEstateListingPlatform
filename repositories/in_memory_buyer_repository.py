@@ -42,4 +42,9 @@ class InMemoryBuyerRepository(BuyerRepository):
     def find_by_email(self,buyer_email:str):
         return self.session.query(Buyer).filter(Buyer.email==buyer_email).first()
 
+    def create_from_user_id(self, user_id: int) -> None:
+        self.session.execute(
+            Buyer.__table__.insert().values(id=user_id)
+        )
+        self.session.commit()
 

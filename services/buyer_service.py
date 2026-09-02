@@ -1,5 +1,6 @@
 from Dtos.requests import BuyPropertyRequest
-from Dtos.responses import BuyPropertyResponse
+from Dtos.responses import BuyPropertyResponse, BecomeBuyerResponse, CreateBuyerResponse
+from sqlalchemy.exc import IntegrityError
 from models.property import Property
 
 
@@ -39,7 +40,27 @@ class BuyerService:
             message="Property purchased successfully"
         )
 
+    def create_buyer(self, user_id):
 
+        existing_buyer = self.buyerRepo.find_by_id(user_id)
+
+        if existing_buyer is not None:
+            return BecomeBuyerResponse(
+                success=False,
+                message="does not exist"
+            )
+
+        try:
+            self.buyerRepo.create_from_user_id(user_id)
+            return CreateBuyerResponse(
+                success=True,
+                message="Buyer created successfully"
+            )
+        except IntegrityError:
+            return CreateBuyerResponse(
+                success=True,
+                message="user does not exist"
+            )
 
 
 

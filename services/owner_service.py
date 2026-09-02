@@ -1,26 +1,32 @@
-# from repositories.owner_repository import OwnerRepository
-# from models.owner import Owner
-#
-# class OwnerService:
-#     def __init__(self, repo:OwnerRepository):
-#         self.repo = repo
-#
-#     def add_property(self, owner_id, data):
-#         owner = Owner(**data, owner_id=owner_id)
-#         return self.repo.save(owner)
-#
-#     def remove_property(self, property_id):
-#         owner = self.repo.find_by_id(property_id)
-#         if owner:
-#             self.repo.delete(owner)
-#
-#     def update_property(self, property_id, data):
-#         owner = self.repo.find_by_id(property_id)
-#         if owner:
-#             for key, value in data.items():
-#                 setattr(owner, key, value)
-#             return self.repo.save(owner)
-#         return None
-#
-#     def view_properties(self, owner_id):
-#         return self.repo.find_by_owner(owner_id)
+from sqlalchemy.exc import IntegrityError
+from Dtos.responses import CreateOwnerResponse
+
+
+class OwnerService:
+
+    def __init__(self, ownerRepo):
+        self.ownerRepo = ownerRepo
+
+    def create_owner(self, user_id):
+
+        existing_owner = self.ownerRepo.find_by_id(user_id)
+
+        if existing_owner is not None:
+            return CreateOwnerResponse(
+                success=False,
+                message="User is already an owner"
+            )
+
+        try:
+            self.ownerRepo.create_from_user_id(user_id)
+
+            return CreateOwnerResponse(
+                success=True,
+                message="Owner created successfully"
+            )
+
+        except IntegrityError:
+            return CreateOwnerResponse(
+                success=False,
+                message="User does not exist"
+            )

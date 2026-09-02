@@ -22,5 +22,17 @@ def get_authentication_service():
 def get_property_service():
     session = SessionLocal()
     property_repo = PropertyRepository(session)
-    buyer_repo = InMemoryBuyerRepository(session)
-    return PropertyService(property_repo,buyer_repo)
+
+    return PropertyService(property_repo)
+
+
+
+from repositories.owner_repository import OwnerRepository
+from services.owner_service import OwnerService
+
+
+def get_owner_service():
+    session = SessionLocal()
+    owner_repo = OwnerRepository(session)
+
+    return OwnerService(owner_repo) 
