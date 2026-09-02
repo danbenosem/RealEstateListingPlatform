@@ -7,6 +7,8 @@ from sqlalchemy.orm import sessionmaker
 from database import Base
 from models.property import Property
 from repositories.in_memory_buyer_repository import InMemoryBuyerRepository
+from repositories.user_repository import UserRepository
+from models.user import User
 
 class BuyerRepositoryTest(TestCase):
 
@@ -78,6 +80,22 @@ class BuyerRepositoryTest(TestCase):
 
         self.assertEqual(saved_user.name, buyer.name)
 
+    def test_that_existing_user_can_become_buyer(self):
+        user = User(
+            name="daniel",
+            email="gggghre@gmail.com",
+            password="1234"
+        )
+
+        user_repository = UserRepository(self.session)
+        user_repository.save(user)
+
+        self.repository.create_from_user_id(user.id)
+
+        saved_buyer = self.repository.find_by_id(user.id)
+
+        self.assertIsNotNone(saved_buyer)
+        self.assertEqual(saved_buyer.id, user.id)
 
 
 

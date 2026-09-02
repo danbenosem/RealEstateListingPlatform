@@ -42,3 +42,18 @@ class RemovePropertyInformationResponse(BaseModel):
     success: bool
     message: str
 
+class BecomeBuyerResponse(BaseModel):
+    success: bool
+    message: str
+
+
+
+class CreateBuyerResponse(BaseModel):
+    success: bool
+    message: str
+
+
+class CreateOwnerResponse(BaseModel):
+    success: bool
+    message: str
+

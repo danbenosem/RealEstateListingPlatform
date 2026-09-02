@@ -3,6 +3,7 @@ from models.owner import Owner
 from sqlalchemy.exc import IntegrityError
 
 
+
 class OwnerRepository:
 
     def __init__(self, session):
@@ -47,3 +48,12 @@ class OwnerRepository:
             Owner.email == owner_email
         ).first()
 
+    def create_from_user_id(self, user_id: int) -> None:
+        try:
+            self.session.execute(
+                Owner.__table__.insert().values(id=user_id)
+            )
+            self.session.commit()
+        except IntegrityError:
+            self.session.rollback()
+            raise
