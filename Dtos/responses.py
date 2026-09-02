@@ -35,6 +35,7 @@ class AddPropertyResponse(BaseModel):
 class UpdatePropertyInformationResponse(BaseModel):
     success: bool
     message: str
+    property_id:int
 
 
 

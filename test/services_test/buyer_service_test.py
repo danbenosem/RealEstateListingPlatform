@@ -8,6 +8,9 @@ from models.buyer import Buyer
 from Dtos.requests import RegisterUserRequest, BuyPropertyRequest
 from services.authentication_service import AuthenticationService
 from repositories.in_memory_buyer_repository import InMemoryBuyerRepository
+from repositories.user_repository import UserRepository
+
+from  models.user import User
 
 
 class BuyerServiceTest(TestCase):
@@ -22,7 +25,6 @@ class BuyerServiceTest(TestCase):
         self.buyer_repo=InMemoryBuyerRepository(self.session)
         self.buyer_service=BuyerService(self.property_repo,self.buyer_repo)
         self.buyer_repo= InMemoryBuyerRepository(self.session)
-        self.authentication_service= AuthenticationService(self.buyer_repo)
 
     def tearDown(self):
         self.session.close()
@@ -61,3 +63,25 @@ class BuyerServiceTest(TestCase):
         response=self.buyer_service.buy_property(buyer.id,buy_request)
         self.assertTrue(response.success)
 
+    def test_that_existing_user_can_become_buyer(self):
+        user = User(
+            name="daniel",
+            email="newbuyer@gmail.com",
+            password="1234"
+        )
+
+        user_repository = UserRepository(self.session)
+        user_repository.save(user)
+
+        response = self.buyer_service.create_buyer(user.id)
+
+        self.assertTrue(response.success)
+        self.assertEqual(
+            response.message,
+            "Buyer created successfully"
+        )
+
+        buyer = self.buyer_repo.find_by_id(user.id)
+
+        self.assertIsNotNone(buyer)
+        self.assertEqual(buyer.id, user.id)

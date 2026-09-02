@@ -45,9 +45,9 @@ class BuyerService:
         existing_buyer = self.buyerRepo.find_by_id(user_id)
 
         if existing_buyer is not None:
-            return BecomeBuyerResponse(
+            return CreateBuyerResponse(
                 success=False,
-                message="does not exist"
+                message="User is already a buyer"
             )
 
         try:
@@ -58,7 +58,7 @@ class BuyerService:
             )
         except IntegrityError:
             return CreateBuyerResponse(
-                success=True,
+                success=False,
                 message="user does not exist"
             )
 
