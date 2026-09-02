@@ -12,7 +12,8 @@ class PropertyService:
         self.repo.save(property)
         return AddPropertyResponse(
             success=True,
-            message="Property successfully added"
+            message="Property successfully added",
+            id= property.id
         )
 
     def remove_property(self, property_id):
@@ -43,8 +44,11 @@ class PropertyService:
 
         return UpdatePropertyInformationResponse(
             success=True,
-            message="Property successfully updated"
+            message="Property successfully updated",
+            property_id= property.id
         )
 
     def view_properties(self, owner_id):
         return self.repo.find_by_owner(owner_id)
+
+

@@ -29,11 +29,13 @@ class SellPropertyResponse(BaseModel):
 class AddPropertyResponse(BaseModel):
      success: bool
      message: str
+     id:int
 
 
 class UpdatePropertyInformationResponse(BaseModel):
     success: bool
     message: str
+
 
 
 class RemovePropertyInformationResponse(BaseModel):
