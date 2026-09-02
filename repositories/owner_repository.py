@@ -1,80 +1,49 @@
 
-from typing import List
-
-from sqlalchemy.orm import Session
-
 from models.owner import Owner
-from models.property import PropertyCreate,Property
-
-
+from sqlalchemy.exc import IntegrityError
 
 
 class OwnerRepository:
-    def __init__(self, db: Session):
-        self.db = db
 
+    def __init__(self, session):
+        self.session = session
 
+    def save(self, owner: Owner) -> None:
+        try:
+            self.session.add(owner)
+            self.session.commit()
+        except IntegrityError:
+            self.session.rollback()
+            raise
 
+    def find_by_id(self, owner_id: int) -> Owner:
+        return self.session.query(Owner).filter(
+            Owner.id == owner_id
+        ).first()
 
+    def find_all(self) -> dict[int, Owner]:
+        owners = self.session.query(Owner).all()
+        dict_owner = {owner.id: owner for owner in owners}
+        return dict_owner
 
-    def get_by_id(self, owner_id: int) :
-        return (
-            self.db.query(Owner)
-            .filter(Owner.owner_id == owner_id)
-            .first()
-        )
+    def delete_by_id(self, owner_id: int) -> None:
+        owner = self.find_by_id(owner_id)
 
-    def get_by_email(self, email: str) :
-        return (
-            self.db.query(Owner)
-            .filter(Owner.email == email)
-            .first()
-        )
+        if owner is not None:
+            self.session.delete(owner)
+            self.session.commit()
 
-    def get_all(self):
-        return self.db.query(Owner).all()
+    def update(self, owner_id: int, data: dict) -> None:
+        owner = self.find_by_id(owner_id)
 
-    def delete(self, owner: Owner) -> None:
-        self.db.delete(owner)
-        self.db.commit()
+        owner.name = data["name"]
+        owner.email = data["email"]
 
+        self.session.add(owner)
+        self.session.commit()
 
+    def find_by_email(self, owner_email: str):
+        return self.session.query(Owner).filter(
+            Owner.email == owner_email
+        ).first()
 
-    def add_property(
-        self, owner_id: int, property_in: PropertyCreate
-    ) :
-        prop = Property(**property_in.model_dump(), owner_id=owner_id)
-        self.db.add(prop)
-        self.db.commit()
-        self.db.refresh(prop)
-        return prop
-
-    def get_property(self, owner_id: int, property_id: int) :
-        return (
-            self.db.query(Property)
-            .filter(
-                Property.id == property_id,
-                Property.owner_id == owner_id,
-            )
-            .first()
-        )
-
-    def view_properties(self, owner_id: int):
-        return (
-            self.db.query(Property)
-            .filter(Property.owner_id == owner_id)
-            .all()
-        )
-
-    def update_property(
-        self, prop: Property, property_in: PropertyCreate
-    ) -> Property:
-        for field, value in property_in.model_dump(exclude_unset=True).items():
-            setattr(prop, field, value)
-        self.db.commit()
-        self.db.refresh(prop)
-        return prop
-
-    def remove_property(self, prop: Property) -> None:
-        self.db.delete(prop)
-        self.db.commit()

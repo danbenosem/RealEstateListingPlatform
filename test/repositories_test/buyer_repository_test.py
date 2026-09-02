@@ -1,4 +1,4 @@
-from os import name
+
 from unittest import TestCase
 from models.buyer import Buyer
 from models.owner import Owner

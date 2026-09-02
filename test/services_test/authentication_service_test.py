@@ -6,7 +6,9 @@ from services.authentication_service import AuthenticationService
 from Dtos.requests import RegisterUserRequest, LoginUserRequest
 
 from repositories.in_memory_buyer_repository import InMemoryBuyerRepository
-
+from repositories.user_repository import UserRepository
+from models.property import Property
+from models.owner import Owner
 class TestAuthenticationService(TestCase):
 
     def setUp(self):
@@ -14,19 +16,19 @@ class TestAuthenticationService(TestCase):
         Base.metadata.create_all(bind=engine)
         self.session = SessionLocal()
 
-        self.repository = InMemoryBuyerRepository(self.session)
+        self.repository = UserRepository(self.session)
         self.authentication_service = AuthenticationService(self.repository)
 
     def tearDown(self):
         self.session.close()
 
-    def test_that_user_can_register_as_buyer(self):
+    def test_that_user_can_register(self):
 
 
-        buyer = RegisterUserRequest(name="dan",email="dan456@gmail.com",password="1234")
+        user= RegisterUserRequest(name="dan",email="dan456@gmail.com",password="1234")
 
 
-        response= self.authentication_service.register_user(buyer)
+        response= self.authentication_service.register_user(user)
 
 
         self.assertTrue(response.success)
@@ -43,6 +45,9 @@ class TestAuthenticationService(TestCase):
         self.authentication_service.register_user(user_request)
         login_request=LoginUserRequest(email="dan123@gmail.com",password="123")
         response=self.authentication_service.login_user(login_request)
+
+        print(response.success)
+        print(response.message)
 
         self.assertTrue(response.success)
 

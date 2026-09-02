@@ -4,6 +4,7 @@ from sqlalchemy.orm import sessionmaker
 from database import Base
 from models.property import Property
 from models.owner import Owner
+from models.buyer import Buyer
 from repositories.property_repository import PropertyRepository
 from services.property_service import PropertyService
 
