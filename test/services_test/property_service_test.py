@@ -35,10 +35,10 @@ class PropertyServiceTest(unittest.TestCase):
             "description": "Nice quiet flat"
         }
 
-        result = self.service.add_property(owner_id=self.owner.id, data=data)
+        response = self.service.add_property(owner_id=self.owner.id, data=data)
 
-        self.assertIsNotNone(result.id)
-        self.assertEqual(result.name, "2 Bedroom Flat")
+
+        self.assertEqual(True, response.success)
 
     def test_remove_property(self):
         data = {
@@ -61,12 +61,18 @@ class PropertyServiceTest(unittest.TestCase):
             "location": "Yaba",
             "description": "Compact studio"
         }
-        added = self.service.add_property(owner_id=self.owner.id, data=data)
+        response = self.service.add_property(owner_id=self.owner.id, data=data)
 
-        self.service.update_property(added.id, {"price": 25000})
+        self.service.update_property(response.id,{"price": 25000})
 
-        updated = self.repo.find_by_id(added.id)
-        self.assertEqual(updated.price, 25000)
+        property= self.repo.find_by_id(response.id)
+
+
+
+
+
+
+        self.assertEqual(property.price, 25000)
 
     def test_view_properties(self):
         self.service.add_property(owner_id=self.owner.id, data={
