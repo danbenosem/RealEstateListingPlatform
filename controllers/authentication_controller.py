@@ -22,3 +22,4 @@ def login_user(request:LoginUserRequest,  authentication_service: Authentication
 @router.post("/logout")
 def logout_user(request:LogOutUserRequest, authentication_service: AuthenticationService = Depends(get_authentication_service)):
     return authentication_service.logout_user(request)
+

@@ -60,7 +60,7 @@ class BuyerRepositoryTest(TestCase):
 
     def test_that_all_buyers_can_be_found(self):
         buyer = Buyer(name="daniel", email="gggghre@gmail.com", password="1234")
-        buyer2= Buyer(name="isreal", email="ggg@gmail.com", password="1234")
+        buyer2= Buyer(name="Israel", email="ggg@gmail.com", password="1234")
         buyer3 = Buyer(name="obi", email="gghre@gmail.com", password="1234")
 
         self.repository.save(buyer)
